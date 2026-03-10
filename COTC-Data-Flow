@@ -1,0 +1,226 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36" version="29.6.1">
+  <diagram name="Page-1" id="v3VBjo0psegYCT5zL4Tn">
+    <mxGraphModel dx="1737" dy="935" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="UP" parent="1" style="swimlane;fontStyle=1;startSize=35;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=15;" value="Uploader Process" vertex="1">
+          <mxGeometry height="380" width="1890" x="10" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="A" parent="UP" style="rounded=1;whiteSpace=wrap;fontSize=15;" value="PcCollector&#xa;CmcCollector&#xa;FirebaseCollector" vertex="1">
+          <mxGeometry height="100" width="180" x="20" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="B" parent="UP" style="rounded=1;whiteSpace=wrap;fontSize=15;" value="collect_all()&#xa;ThreadPoolExecutor" vertex="1">
+          <mxGeometry height="100" width="180" x="280" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="C" parent="UP" style="shape=process;whiteSpace=wrap;fontSize=15;" value="_collect_loop&#xa;thread" vertex="1">
+          <mxGeometry height="100" width="160" x="540" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="D" parent="UP" style="shape=process;whiteSpace=wrap;fontSize=15;" value="metrics_queue&#xa;in-memory" vertex="1">
+          <mxGeometry height="100" width="160" x="740" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="E" parent="UP" style="shape=process;whiteSpace=wrap;fontSize=15;" value="_write_loop&#xa;thread" vertex="1">
+          <mxGeometry height="100" width="160" x="950" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="F" parent="UP" style="rounded=1;whiteSpace=wrap;fontSize=15;" value="serialize()&#xa;DataSnapshot to JSON string" vertex="1">
+          <mxGeometry height="100" width="190" x="1180" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="G" parent="UP" style="rounded=1;whiteSpace=wrap;fontSize=15;" value="LocalQueue.submit()" vertex="1">
+          <mxGeometry height="100" width="180" x="1464" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="H" parent="UP" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;" value="live HTTP POST" vertex="1">
+          <mxGeometry height="60" width="160" x="1710" y="42.5" as="geometry" />
+        </mxCell>
+        <mxCell id="I" parent="UP" style="shape=process;whiteSpace=wrap;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=15;" value="disk buffer&#xa;.json files" vertex="1">
+          <mxGeometry height="65" width="160" x="1710" y="157.5" as="geometry" />
+        </mxCell>
+        <mxCell id="UP_sep" parent="UP" style="text;fontStyle=1;fontSize=15;fillColor=none;strokeColor=none;align=left;" value="Hydra Command Flow" vertex="1">
+          <mxGeometry height="25" width="260" x="20" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="hydra_UP1" parent="UP" style="shape=process;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;" value="_hydra_loop thread&#xa;polls GET /commands/hydra&#xa;every poll_interval_seconds" vertex="1">
+          <mxGeometry height="100" width="250" x="20" y="238" as="geometry" />
+        </mxCell>
+        <mxCell id="hydra_UP2" parent="UP" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;" value="_launch_hydra()&#xa;gcc compile if needed&#xa;subprocess.Popen launch" vertex="1">
+          <mxGeometry height="100" width="250" x="300" y="238" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="UP" source="A" style="edgeStyle=orthogonalEdgeStyle;" target="B" value="list[Metric]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="UP" source="B" style="edgeStyle=orthogonalEdgeStyle;" target="C" value="list[Metric]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="UP" source="C" style="edgeStyle=orthogonalEdgeStyle;" target="D" value="put">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="UP" source="D" style="edgeStyle=orthogonalEdgeStyle;" target="E" value="get">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="UP" source="E" style="edgeStyle=orthogonalEdgeStyle;" target="F" value="list[Metric]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="UP" source="F" style="edgeStyle=orthogonalEdgeStyle;" target="G" value="JSON string">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="UP" source="G" style="edgeStyle=orthogonalEdgeStyle;" target="H" value="no backlog">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="UP" source="G" style="edgeStyle=orthogonalEdgeStyle;" target="I" value="backlog exists or POST failed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="UP" source="I" style="edgeStyle=orthogonalEdgeStyle;" target="H" value="_flush_loop retry">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hydra_e_UP" edge="1" parent="UP" source="hydra_UP1" style="edgeStyle=orthogonalEdgeStyle;" target="hydra_UP2" value="pending=true">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3-N9FQAaEfgkGVR16vLl-5" edge="1" parent="UP" source="I" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1710" y="320" />
+              <mxPoint x="1860" y="320" />
+            </Array>
+            <mxPoint x="1860" y="223" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3-N9FQAaEfgkGVR16vLl-6" connectable="0" parent="3-N9FQAaEfgkGVR16vLl-5" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="POST still failed: re-queue" vertex="1">
+          <mxGeometry relative="1" x="-0.0346" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="AG" parent="1" style="swimlane;fontStyle=1;startSize=35;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=15;" value="Aggregator Process" vertex="1">
+          <mxGeometry height="290" width="1170" x="10" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="J" parent="AG" style="rounded=1;whiteSpace=wrap;fontSize=15;" value="POST /ingest" vertex="1">
+          <mxGeometry height="90" width="180" x="20" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="K" parent="AG" style="rounded=1;whiteSpace=wrap;fontSize=15;" value="deserialize()&#xa;JSON to DataSnapshot" vertex="1">
+          <mxGeometry height="90" width="200" x="320" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="L" parent="AG" style="rounded=1;whiteSpace=wrap;fontSize=15;" value="save_snapshot()&#xa;normalises to rows" vertex="1">
+          <mxGeometry height="90" width="200" x="630" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="M" parent="AG" style="shape=cylinder3;whiteSpace=wrap;fontSize=15;labelBackgroundColor=default;" value="SQLite DB&#xa;Source · Unit&#xa;MetricType · TimeSlot&#xa;MetricRecord" vertex="1">
+          <mxGeometry height="110" width="180" x="890" y="45" as="geometry" />
+        </mxCell>
+        <mxCell id="AG_sep" parent="AG" style="text;fontStyle=1;fontSize=15;fillColor=none;strokeColor=none;align=left;" value="Hydra Command Flow" vertex="1">
+          <mxGeometry height="25" width="260" x="20" y="175" as="geometry" />
+        </mxCell>
+        <mxCell id="hydra_AG1" parent="AG" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;" value="GET /commands/hydra&#xa;Path.unlink() trigger file&#xa;returns {pending: true/false}" vertex="1">
+          <mxGeometry height="65" width="280" x="20" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="AG" source="J" style="edgeStyle=orthogonalEdgeStyle;" target="K" value="JSON string">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="AG" source="K" style="edgeStyle=orthogonalEdgeStyle;" target="L" value="DataSnapshot">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="AG" source="L" style="edgeStyle=orthogonalEdgeStyle;" target="M" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RE" parent="1" style="swimlane;fontStyle=1;startSize=35;fillColor=#f8cecc;strokeColor=#b85450;fontSize=15;" value="Reporter Process" vertex="1">
+          <mxGeometry height="430" width="1300" x="10" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="N" parent="RE" style="rounded=1;whiteSpace=wrap;fontSize=15;" value="list_recent()&#xa;rows to list[DataSnapshot]" vertex="1">
+          <mxGeometry height="100" width="200" x="20" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="O" parent="RE" style="rounded=1;whiteSpace=wrap;fontSize=15;" value="MetricsCache&#xa;fresh: serve cached&#xa;stale: serve + bg refresh&#xa;expired: block + fetch" vertex="1">
+          <mxGeometry height="100" width="210" x="340" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="P" parent="RE" style="rounded=1;whiteSpace=wrap;fontSize=15;" value="GET / endpoint" vertex="1">
+          <mxGeometry height="100" width="170" x="670" y="93" as="geometry" />
+        </mxCell>
+        <mxCell id="Q" parent="RE" style="rounded=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;" value="SuccessResponseDict&#xa;JSON" vertex="1">
+          <mxGeometry height="65" width="200" x="890" y="58" as="geometry" />
+        </mxCell>
+        <mxCell id="R" parent="RE" style="rounded=1;whiteSpace=wrap;fillColor=#f8cecc;strokeColor=#b85450;fontSize=15;" value="ErrorResponseDict&#xa;JSON" vertex="1">
+          <mxGeometry height="65" width="200" x="890" y="163" as="geometry" />
+        </mxCell>
+        <mxCell id="S" parent="RE" style="ellipse;whiteSpace=wrap;fontSize=15;" value="React Client" vertex="1">
+          <mxGeometry height="100" width="160" x="1130" y="93" as="geometry" />
+        </mxCell>
+        <mxCell id="RE_sep" parent="RE" style="text;fontStyle=1;fontSize=15;fillColor=none;strokeColor=none;align=left;" value="Hydra Command Flow" vertex="1">
+          <mxGeometry height="25" width="260" x="10" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="hydra_RE1" parent="RE" style="rounded=1;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;" value="POST /hydra endpoint&#xa;Path.touch() trigger file" vertex="1">
+          <mxGeometry height="90" width="230" x="20" y="303" as="geometry" />
+        </mxCell>
+        <mxCell id="hydra_RE2" parent="RE" style="shape=cylinder3;whiteSpace=wrap;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;" value="trigger file&#xa;VM filesystem" vertex="1">
+          <mxGeometry height="100" width="190" x="280" y="293" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="RE" source="N" style="edgeStyle=orthogonalEdgeStyle;" target="O" value="list[DataSnapshot]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="RE" source="O" style="edgeStyle=orthogonalEdgeStyle;" target="P" value="list[DataSnapshot]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e16" edge="1" parent="RE" source="P" style="edgeStyle=orthogonalEdgeStyle;" target="Q" value="success">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e17" edge="1" parent="RE" source="P" style="edgeStyle=orthogonalEdgeStyle;" target="R" value="error">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e18" edge="1" parent="RE" source="Q" style="edgeStyle=orthogonalEdgeStyle;" target="S" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e19" edge="1" parent="RE" source="R" style="edgeStyle=orthogonalEdgeStyle;" target="S" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hydra_e_RE" edge="1" parent="RE" source="hydra_RE1" style="edgeStyle=orthogonalEdgeStyle;" target="hydra_RE2" value="Path.touch()">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hydra_e_S" edge="1" parent="RE" source="S" style="edgeStyle=orthogonalEdgeStyle;dashed=1;fontSize=15;" target="hydra_RE1" value="POST /hydra">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1210" y="260" />
+              <mxPoint x="190" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e21" edge="1" parent="1" source="M" style="edgeStyle=elbowEdgeStyle;elbow=vertical;fontSize=15;" target="N" value="reads">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="770" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hydra_e1" edge="1" parent="1" source="hydra_UP1" style="edgeStyle=orthogonalEdgeStyle;dashed=1;strokeColor=#9673a6;" target="hydra_AG1" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="155" y="430" />
+              <mxPoint x="200" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3-N9FQAaEfgkGVR16vLl-9" connectable="0" parent="hydra_e1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="polls every N seconds" vertex="1">
+          <mxGeometry relative="1" x="-0.4024" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hydra_e2" edge="1" parent="1" source="hydra_RE2" style="edgeStyle=orthogonalEdgeStyle;dashed=1;strokeColor=#9673a6;" target="hydra_AG1" value="filesystem IPC (VM co-located)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="360" y="860" />
+              <mxPoint x="170" y="860" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e20" edge="1" parent="1" style="edgeStyle=elbowEdgeStyle;elbow=vertical;entryX=0.176;entryY=0.01;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=15;" target="J" value="HTTP POST /ingest">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1070" y="410" />
+              <mxPoint x="1295" y="410" />
+            </Array>
+            <mxPoint x="1940" y="80" as="sourcePoint" />
+            <mxPoint x="290" y="495" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3-N9FQAaEfgkGVR16vLl-1" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;exitX=0.994;exitY=0.568;exitDx=0;exitDy=0;exitPerimeter=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="1880" y="80.00000000000004" as="sourcePoint" />
+            <mxPoint x="1940" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
